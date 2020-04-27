@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CshLab5
+namespace CshLab6
 {
-    class LightAthlet : SpecificSport
+    class LightAthlet : Sportsman, ISpecificSport
     {
         private Medals _medals;
         private struct LegsPower
@@ -16,13 +16,14 @@ namespace CshLab5
             Legs.LeftPower = PowerOfLeftLeg;
             Legs.RightPower = PowerOfRightLeg;
         }
-        public override Name GetSportName() => Name.LightAthletic;
-        public override double GetResult() => _medals.GetResult();
-        public static bool IsSuit(Human human)
+        public SportName GetSportName() => SportName.LightAthletic;
+        public double GetResult() => _medals.GetResult();
+        public bool IsSuit(Human human)
         {
             if (human.Age < 18 || human.Age > 50) return false;
             if (human.Weight < 30 || human.Weight > 140) return false;
             if (human.Height < 120 || human.Height > 250) return false;
+            if (GetResult() == 0) return false;
             return true;
         }
         public override void OutInfo()
@@ -31,6 +32,13 @@ namespace CshLab5
             if (Legs.LeftPower > Legs.RightPower) Console.WriteLine($"His favourite left leg has {Legs.LeftPower} power");
             else Console.WriteLine($"His favourite right leg has {Legs.RightPower} power");
             _medals.OutInfo();
+        }
+        public int CompareTo(ISpecificSport compareSport)
+        {
+            if (compareSport == null) return 1;
+            if (GetResult() - compareSport.GetResult() > 0) return 1;
+            if (GetResult() - compareSport.GetResult() < 0) return -1;
+            return 0;
         }
     }
 }

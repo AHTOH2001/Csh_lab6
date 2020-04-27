@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CshLab5
+namespace CshLab6
 {
-    class Programmer : SpecificSport
+    class Programmer : Sportsman, ISpecificSport
     {
         private readonly int _thirdDiplomaObl;
         private readonly int _secondDiplomaObl;
@@ -34,12 +34,13 @@ namespace CshLab5
             Vitebsk
         }
         private readonly Regions _region;
-        public override Name GetSportName() => Name.SportProgramming;
-        public override double GetResult() => _thirdDiplomaResp + _secondDiplomaResp * 2 + _firstDiplomaResp * 3 + _thirdDiplomaObl * 0.2 + _secondDiplomaObl * 0.5 + _firstDiplomaObl * 0.8;
-        public static bool IsSuit(Human human)
+        public SportName GetSportName() => SportName.SportProgramming;
+        public double GetResult() => _thirdDiplomaResp + _secondDiplomaResp * 2 + _firstDiplomaResp * 3 + _thirdDiplomaObl * 0.2 + _secondDiplomaObl * 0.5 + _firstDiplomaObl * 0.8;
+        public bool IsSuit(Human human)
         {
-            if (human.Age < 6 || human.Age > 30) return false;
-            if (Human.FixName(human.Name) == "Vikusha") return false;
+            if (human.Age < 6 || human.Age > 28) return false;
+            if (human.Name == "Vikusha") return false;
+            if (GetResult() == 0) return false;
             return true;
         }
         public override void OutInfo()
@@ -59,6 +60,13 @@ namespace CshLab5
                 Console.WriteLine($"number of diplomas of the second degree in republican stage: {_secondDiplomaResp}");
             if (_firstDiplomaResp != 0)
                 Console.WriteLine($"number of diplomas of the first degree in republican stage: {_firstDiplomaResp}");
+        }
+        public int CompareTo(ISpecificSport compareSport)
+        {
+            if (compareSport == null) return 1;
+            if (GetResult() - compareSport.GetResult() > 0) return 1;
+            if (GetResult() - compareSport.GetResult() < 0) return -1;
+            return 0;
         }
     }
 }

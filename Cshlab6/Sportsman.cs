@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CshLab5
+namespace CshLab6
 {
 
-    internal class Sportsman : Human, IComparable<Sportsman>
+    class Sportsman : Human, IComparable<Sportsman>
     {
-        private List<SpecificSport> _SpecificSport = new List<SpecificSport>();
+        private List<ISpecificSport> _SpecificSport = new List<ISpecificSport>();
         private double _score;
-        public Sportsman(int age, int weight, int height, string name, params SpecificSport[] sports) : base(age, weight, height, name)
+        public Sportsman(int age, int weight, int height, string name, params ISpecificSport[] sports) : base(age, weight, height, name)
         {
             for (int i = 0; i < sports.Length; i++)
                 Add(sports[i]);
         }
-        public Sportsman(Human human, params SpecificSport[] sports) : base(human.Age, human.Weight, human.Height, human.Name)
+        public Sportsman(Human human, params ISpecificSport[] sports) : base(human.Age, human.Weight, human.Height, human.Name)
         {
             for (int i = 0; i < sports.Length; i++)
                 Add(sports[i]);
+        }
+        public Sportsman()
+        {
         }
 
-        public int Find(SpecificSport.Name value)
+        public int Find(SportName value)
         {
             for (int i = 0; i < _SpecificSport.Count; i++)
             {
@@ -27,7 +30,7 @@ namespace CshLab5
             }
             return -1;
         }
-        public SpecificSport this[SpecificSport.Name ind]
+        public ISpecificSport this[SportName ind]
         {
             set
             {
@@ -48,9 +51,10 @@ namespace CshLab5
                 return _SpecificSport[i];
             }
         }
-        public void Add(SpecificSport sport)
+        public void Add(ISpecificSport sport)
         {
             if (sport == null) throw new Exception("Null sports are forbidden");
+            if (!sport.IsSuit(this)) return;
             int i = Find(sport.GetSportName());
             if (i != -1)
                 this[sport.GetSportName()] = sport;
@@ -60,7 +64,7 @@ namespace CshLab5
                 _score += sport.GetResult();
             }
         }
-        public new void OutInfo()
+        public override void OutInfo()
         {
             base.OutInfo();
             for (int i = 0; i < _SpecificSport.Count; i++)
@@ -81,41 +85,32 @@ namespace CshLab5
         }
     }
 
-    abstract class SpecificSport
+    public enum SportName
     {
-        public abstract Name GetSportName();
-        public virtual double GetResult()
+        SportProgramming,
+        Weightlifting,
+        LightAthletic
+    }
+    public struct Medals
+    {
+        private int GoldMedal, SilverMedal, BronzeMedal;
+        public Medals(int goldMedal, int silverMedal, int bronzeMedal)
         {
-            return 0;
+            GoldMedal = goldMedal;
+            SilverMedal = silverMedal;
+            BronzeMedal = bronzeMedal;
         }
-        //        public abstract bool IsSuit(Human human);
-        public enum Name
+        public void OutInfo()
         {
-            SportProgramming,
-            Weightlifting,
-            LightAthletic
+            if (GoldMedal != 0)
+                Console.WriteLine($"number of gold medals: {GoldMedal}");
+            if (SilverMedal != 0)
+                Console.WriteLine($"number of silver medals: {SilverMedal}");
+            if (BronzeMedal != 0)
+                Console.WriteLine($"number of bronze medals: {BronzeMedal}");
         }
-        public abstract void OutInfo();
-        public struct Medals
-        {
-            private int GoldMedal, SilverMedal, BronzeMedal;
-            public Medals(int goldMedal, int silverMedal, int bronzeMedal)
-            {
-                GoldMedal = goldMedal;
-                SilverMedal = silverMedal;
-                BronzeMedal = bronzeMedal;
-            }
-            public void OutInfo()
-            {
-                if (GoldMedal != 0)
-                    Console.WriteLine($"number of gold medals: {GoldMedal}");
-                if (SilverMedal != 0)
-                    Console.WriteLine($"number of silver medals: {SilverMedal}");
-                if (BronzeMedal != 0)
-                    Console.WriteLine($"number of bronze medals: {BronzeMedal}");
-            }
-            public double GetResult() => GoldMedal * 3 + SilverMedal * 2 + BronzeMedal;
-        }
+        public double GetResult() => GoldMedal * 3 + SilverMedal * 2 + BronzeMedal;
+
     }
 }
 

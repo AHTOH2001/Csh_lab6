@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace CshLab5
+namespace CshLab6
 {
     class Human
     {
@@ -13,6 +14,9 @@ namespace CshLab5
             Weight = weight;
             Height = height;
             Name = name;
+        }
+        public Human()
+        {
         }
         public int Age
         {
@@ -68,13 +72,16 @@ namespace CshLab5
                 else name.Append(value[i]);
             return name.ToString();
         }
-        public void OutInfo()
+        public virtual void OutInfo()
         {
-            Console.WriteLine("*************");
-            Console.WriteLine($"Name = {_name}\nAge = {_age}\nWeight = {_weight}\nHeigth = {_height}");
-            Console.WriteLine("This person is{0}suit for programming", Programmer.IsSuit(this) ? " " : " not ");
-            Console.WriteLine("This person is{0}suit for light athletic", LightAthlet.IsSuit(this) ? " " : " not ");
-            Console.WriteLine("This person is{0}suit for weightlifting", Weightlifter.IsSuit(this) ? " " : " not ");
+            Console.WriteLine($"\nName = {_name}\nAge = {_age}\nWeight = {_weight}\nHeigth = {_height}");
+        }
+        public class CompareByName : IComparer<Human>
+        {
+            public int Compare(Human value1, Human value2)
+            {
+                return value1.Name.CompareTo(value2.Name);
+            }
         }
     }
 }
