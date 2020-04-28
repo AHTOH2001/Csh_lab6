@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CshLab6
 {
-    class Human
+    class Human : ICloneable
     {
         private int _age = 0, _weight = 0, _height = 0;
         private string _name;
@@ -76,6 +76,12 @@ namespace CshLab6
         {
             Console.WriteLine($"\nName = {_name}\nAge = {_age}\nWeight = {_weight}\nHeigth = {_height}");
         }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         public class CompareByName : IComparer<Human>
         {
             public int Compare(Human value1, Human value2)

@@ -57,16 +57,26 @@ namespace CshLab6
             if (c == '2')
             {
                 Human human1 = new Human(age: 19, weight: 50, height: 163, name: "VikushaNormalnaya");
+                Programmer sport1 = new Programmer(region: Programmer.Regions.Minsk, thirdDiplomaResp: 0, secondDiplomaResp: 0, firstDiplomaResp: 2, thirdDiplomaObl: 1);
+                ISpecificSport sport3;
                 Sportsman sportsman1 = new Sportsman(human1);
-                sportsman1.Add(new Programmer(region: Programmer.Regions.Minsk, thirdDiplomaResp: 0, secondDiplomaResp: 0, firstDiplomaResp: 2, thirdDiplomaObl: 1));
+                sportsman1.Add(sport1);
                 sportsman1.Add(new LightAthlet(GoldMedal: 1, SilverMedal: 0, BronzeMedal: 0, PowerOfLeftLeg: 123, PowerOfRightLeg: 89));
                 sportsman1.OutInfo();
                 sportsman1[SportName.SportProgramming] = new Programmer(region: Programmer.Regions.Gomel, thirdDiplomaResp: 0, secondDiplomaResp: 0, firstDiplomaResp: 0, thirdDiplomaObl: 1, klacSpeed: 13.2);
                 sportsman1.OutInfo();
                 Sportsman sportsman2 = new Sportsman(age: 18, weight: 250, height: 183, name: "Toshunya");
-                sportsman2.Add(new Weightlifter(GoldMedal: 1, SilverMedal: 0, BronzeMedal: 0));
+                ISpecificSport sport2 = new Weightlifter(GoldMedal: 1, SilverMedal: 0, BronzeMedal: 0);
+                sportsman2.Add(sport2);
                 sportsman2.OutInfo();
                 Console.WriteLine(sportsman1[SportName.SportProgramming].GetResult());
+                Human hm1 = new Human(5, 5, 5, "Vitya");
+                Human hm2 = (Human)hm1.Clone();
+                hm2.OutInfo();
+                sport3 = (ISpecificSport)sport1.Clone();
+                if (sport1.Equals(sport3)) Console.WriteLine("\nsport1 is equal sport3");
+                else Console.WriteLine("\nsport1 is not equal sport3");
+
             }
             Console.ReadKey();
         }

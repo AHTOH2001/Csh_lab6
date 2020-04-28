@@ -45,7 +45,7 @@ namespace CshLab6
         }
         public override void OutInfo()
         {
-            Console.Write("This person trohi like sport programming");
+            Console.Write("This person trohi likes sport programming");
             if (_klacSpeed != 0) Console.WriteLine($" and do klac klac with speed {_klacSpeed} per second:");
             else Console.WriteLine(":");
             if (_thirdDiplomaObl != 0)
@@ -67,6 +67,10 @@ namespace CshLab6
             if (GetResult() - compareSport.GetResult() > 0) return 1;
             if (GetResult() - compareSport.GetResult() < 0) return -1;
             return 0;
+        }
+        public bool Equals(ISpecificSport other)
+        {
+            return this.GetResult() == other.GetResult() && this.GetSportName() == other.GetSportName();
         }
     }
 }

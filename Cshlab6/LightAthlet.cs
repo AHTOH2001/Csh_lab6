@@ -28,7 +28,7 @@ namespace CshLab6
         }
         public override void OutInfo()
         {
-            Console.WriteLine("This person trohi like light athletic:");
+            Console.WriteLine("This person trohi likes light athletic:");
             if (Legs.LeftPower > Legs.RightPower) Console.WriteLine($"His favourite left leg has {Legs.LeftPower} power");
             else Console.WriteLine($"His favourite right leg has {Legs.RightPower} power");
             _medals.OutInfo();
@@ -39,6 +39,10 @@ namespace CshLab6
             if (GetResult() - compareSport.GetResult() > 0) return 1;
             if (GetResult() - compareSport.GetResult() < 0) return -1;
             return 0;
+        }
+        public bool Equals(ISpecificSport other)
+        {
+            return this.GetResult() == other.GetResult() && this.GetSportName() == other.GetSportName();
         }
     }
 }
